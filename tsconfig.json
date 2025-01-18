@@ -53,6 +53,12 @@
       ],
       "@fiap-x/external-providers/*": [
         "libs/external-providers/src/*"
+      ],
+      "@fiap-x/storage": [
+        "libs/storage/src"
+      ],
+      "@fiap-x/storage/*": [
+        "libs/storage/src/*"
       ]
     }
   }
