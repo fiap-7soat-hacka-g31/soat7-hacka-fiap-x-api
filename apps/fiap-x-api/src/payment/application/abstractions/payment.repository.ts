@@ -6,4 +6,5 @@ export abstract class PaymentRepository implements Repository<Payment> {
   abstract findAll(): Promise<Payment[]>;
   abstract create(entity: Payment): Promise<void>;
   abstract update(entity: Payment): Promise<void>;
+  abstract newId(): string;
 }
