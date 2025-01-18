@@ -1,4 +1,4 @@
-name: FiapXVideoAPI - CICD
+name: FiapXApi - CICD
 
 on:
   push:
