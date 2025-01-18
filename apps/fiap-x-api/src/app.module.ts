@@ -13,6 +13,7 @@ import { AmqpConfig } from './config/amqp.config';
 import { AppConfig } from './config/app.config';
 import { MongooseConfig } from './config/mongoose.config';
 import { PaymentModule } from './payment/payment.module';
+import { VideoModule } from './video/video.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PaymentModule } from './payment/payment.module';
     MongooseTacticalDesignModule,
     AmqpTacticalDesignModule,
     MongooseTransactionalModule,
+    VideoModule,
     PaymentModule,
   ],
 })

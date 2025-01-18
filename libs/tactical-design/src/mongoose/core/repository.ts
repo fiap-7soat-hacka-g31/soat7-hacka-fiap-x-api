@@ -26,6 +26,10 @@ export abstract class MongooseRepository<
     >,
   ) {}
 
+  newId(): string {
+    return new Types.ObjectId().toHexString();
+  }
+
   async findById(id: string): Promise<TEntity> {
     return this.findOne({
       _id: new Types.ObjectId(id),
