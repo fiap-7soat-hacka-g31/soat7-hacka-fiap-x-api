@@ -2,6 +2,9 @@
 import { Entity, Repository } from '@fiap-x/tactical-design/core';
 
 export class FakeRepository<T extends Entity> implements Repository<T> {
+  newId(): string {
+    throw new Error('Method not implemented.');
+  }
   create(entity: T): Promise<void> {
     throw new Error('Method not implemented.');
   }
