@@ -34,16 +34,16 @@ export abstract class VideoStatus {
     return this._value;
   }
 
-  pending() {
+  pending(): VideoStatus {
     throw new StatusTransitionException(this._value, EVideoStatus.Pending);
   }
-  processing() {
+  processing(): VideoStatus {
     throw new StatusTransitionException(this._value, EVideoStatus.Processing);
   }
-  processed() {
+  processed(): VideoStatus {
     throw new StatusTransitionException(this._value, EVideoStatus.Processed);
   }
-  failed() {
+  failed(): VideoStatus {
     throw new StatusTransitionException(this._value, EVideoStatus.Failed);
   }
 }
@@ -59,11 +59,11 @@ class ProcessingVideoStatus extends VideoStatus {
   protected readonly _value = EVideoStatus.Processing;
 
   processed() {
-    return new ProcessingVideoStatus();
+    return new ProcessedVideoStatus();
   }
 
   failed() {
-    return new ProcessingVideoStatus();
+    return new FailedVideoStatus();
   }
 }
 

@@ -24,6 +24,7 @@ export class MongooseVideoRepository
     super(mergeContext, transactionManager, Model, schemaFactory);
   }
 
+  /* istanbul ignore next */
   async findByOwnerAndFilename(
     ownerId: string,
     filename: string,

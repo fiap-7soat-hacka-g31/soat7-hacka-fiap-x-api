@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import {
   StorageService,
   UploadVideoResult,
-} from '../../../application/abstractions/storage.service';
+} from '../../../../application/abstractions/storage.service';
 
 @Injectable()
 export class AwsS3VideoStorageService implements StorageService {

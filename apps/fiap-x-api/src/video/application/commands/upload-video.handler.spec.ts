@@ -9,7 +9,7 @@ import { Types } from 'mongoose';
 import { Video } from '../../domain/entities/video.aggregate';
 import { CloudFile } from '../../domain/values/cloud-file.value';
 import { VideoStatus } from '../../domain/values/video-status.value';
-import { AwsS3VideoStorageService } from '../../infra/storage/aws-s3/aws-s3-storage.service';
+import { AwsS3VideoStorageService } from '../../infra/adapters/storage/aws-s3/aws-s3-storage.service';
 import { StorageService } from '../abstractions/storage.service';
 import { VideoRepository } from '../abstractions/video.repository';
 import { UploadVideoCommand } from './upload-video.command';
