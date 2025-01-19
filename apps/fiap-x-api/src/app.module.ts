@@ -12,7 +12,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AmqpConfig } from './config/amqp.config';
 import { AppConfig } from './config/app.config';
 import { MongooseConfig } from './config/mongoose.config';
-import { PaymentModule } from './payment/payment.module';
 import { VideoModule } from './video/video.module';
 
 @Module({
@@ -28,7 +27,6 @@ import { VideoModule } from './video/video.module';
     AmqpTacticalDesignModule,
     MongooseTransactionalModule,
     VideoModule,
-    PaymentModule,
   ],
 })
 export class AppModule {}

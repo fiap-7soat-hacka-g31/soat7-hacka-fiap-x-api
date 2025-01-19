@@ -115,7 +115,6 @@
       "^@fiap-x/test-factory(|/.*)$": "<rootDir>/test/libs/test-factory/src/$1",
       "^@fiap-x/acceptance-factory(|/.*)$": "<rootDir>/test/libs/acceptance-factory/src/$1",
       "^@fiap-x/amqp(|/.*)$": "<rootDir>/libs/amqp/src/$1",
-      "^@fiap-x/external-providers(|/.*)$": "<rootDir>/libs/external-providers/src/$1",
       "^@fiap-x/storage(|/.*)$": "<rootDir>/libs/storage/src/$1"
     }
   }
