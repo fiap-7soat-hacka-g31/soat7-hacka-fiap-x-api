@@ -1,3 +1,4 @@
+import { Transactional } from '@fiap-x/tactical-design/core';
 import { ConflictException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Video } from '../../domain/entities/video.aggregate';
@@ -15,6 +16,7 @@ export class UploadVideoCommandHandler
     private readonly storage: StorageService,
   ) {}
 
+  @Transactional()
   async execute(command: UploadVideoCommand): Promise<UploadVideoResult> {
     const { data } = command;
     const exists = await this.repository.findByOwnerAndFilename(

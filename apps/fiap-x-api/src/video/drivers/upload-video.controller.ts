@@ -19,7 +19,6 @@ export class UploadVideoController {
       new UploadVideoCommand({
         ownerId: '6592008029c8c3e4dc76256c',
         filename: file.originalname,
-        mimetype: file.mimetype,
         content: file.buffer,
       }),
     );
