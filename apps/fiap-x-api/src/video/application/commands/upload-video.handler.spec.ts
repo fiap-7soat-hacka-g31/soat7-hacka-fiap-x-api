@@ -13,11 +13,11 @@ import { AwsS3VideoStorageService } from '../../infra/storage/aws-s3/aws-s3-stor
 import { StorageService } from '../abstractions/storage.service';
 import { VideoRepository } from '../abstractions/video.repository';
 import { UploadVideoCommand } from './upload-video.command';
-import { UploadVideoCommandHandler } from './upload-video.handler';
+import { UploadVideoHandler } from './upload-video.handler';
 
 describe('UploadVideoHandler', () => {
   let app: INestApplication;
-  let target: UploadVideoCommandHandler;
+  let target: UploadVideoHandler;
   let repository: VideoRepository;
   let storage: StorageService;
 
@@ -28,7 +28,7 @@ describe('UploadVideoHandler', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       providers: [
-        UploadVideoCommandHandler,
+        UploadVideoHandler,
         {
           provide: TransactionManager,
           useClass: FakeTransactionManager,
@@ -45,7 +45,7 @@ describe('UploadVideoHandler', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    target = app.get(UploadVideoCommandHandler);
+    target = app.get(UploadVideoHandler);
     repository = app.get(VideoRepository);
     storage = app.get(StorageService);
     repository.findByOwnerAndFilename = jest.fn();

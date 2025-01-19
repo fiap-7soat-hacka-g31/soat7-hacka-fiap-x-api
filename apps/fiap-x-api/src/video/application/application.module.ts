@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { InfraModule } from '../infra/infra.module';
-import { UploadVideoCommandHandler } from './commands/upload-video.handler';
+import { UploadVideoHandler } from './commands/upload-video.handler';
 
 const QueryHandlers = [];
-const CommandHandlers = [UploadVideoCommandHandler];
+const CommandHandlers = [UploadVideoHandler];
 
 @Module({
   imports: [CqrsModule, InfraModule],

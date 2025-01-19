@@ -8,7 +8,7 @@ import { VideoRepository } from '../abstractions/video.repository';
 import { UploadVideoCommand, UploadVideoResult } from './upload-video.command';
 
 @CommandHandler(UploadVideoCommand)
-export class UploadVideoCommandHandler
+export class UploadVideoHandler
   implements ICommandHandler<UploadVideoCommand, UploadVideoResult>
 {
   constructor(
