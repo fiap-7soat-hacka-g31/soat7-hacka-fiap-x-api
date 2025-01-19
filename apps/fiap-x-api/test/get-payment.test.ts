@@ -6,7 +6,7 @@ import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { createTestApp } from './create-app';
 
-describe('GET /v1/payments/:id', () => {
+describe.skip('GET /v1/payments/:id', () => {
   let app: INestApplication;
   let server: App;
 

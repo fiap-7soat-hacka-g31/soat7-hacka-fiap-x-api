@@ -8,3 +8,4 @@ s3_client = boto3.client(
 )
 
 s3_client.create_bucket(Bucket="fiap7soat-f5-hacka")
+s3_client.create_bucket(Bucket="fiap7soat-f5-hacka-tests")

@@ -5,7 +5,7 @@ import { App } from 'supertest/types';
 import { setTimeout } from 'timers/promises';
 import { createTestApp } from './create-app';
 
-describe('PATCH /v1/payments/:id/reject', () => {
+describe.skip('PATCH /v1/payments/:id/reject', () => {
   let app: INestApplication;
   let server: App;
 

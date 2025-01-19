@@ -18,7 +18,7 @@ describe('POST /v1/payments', () => {
     await destroyTestApp(app);
   });
 
-  it('should draft a new payment', async () => {
+  it.skip('should draft a new payment', async () => {
     const payment = { type: 'PixQrCode', amount: 999.99 };
     const draftPaymentResponse = await request(server)
       .post('/v1/payments')

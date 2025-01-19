@@ -1,7 +1,7 @@
 services:
   aws_s3:
     image: localstack/localstack:s3-latest
-    container_name: localstack_aws_s3
+    container_name: fiapx-aws-s3
     ports:
       - 4566:4566
     volumes:
