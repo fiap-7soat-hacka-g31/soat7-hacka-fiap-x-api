@@ -1,7 +1,8 @@
 import { Given, Suite, Then, When } from '@fiap-x/acceptance-factory';
 import { HttpService } from '@nestjs/axios';
 import { strict as assert } from 'assert';
-import FormData from 'form-data';
+import { randomUUID } from 'crypto';
+import * as FormData from 'form-data';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { setTimeout } from 'timers/promises';
@@ -14,9 +15,10 @@ export class VideoSuite {
 
   @Given('a video is sent to the service')
   async uploadVideo() {
-    const filename = 'video.mp4';
+    const filename = `${randomUUID()}.mp4`;
     const form = new FormData();
-    const stream = createReadStream(join(__dirname, 'resources', filename));
+    const path = join(__dirname, '..', '..', '..', 'resources', 'video.mp4');
+    const stream = createReadStream(path);
     form.append('file', stream, { filename });
     const res = await this.http.axiosRef.post(
       'http://localhost:4000/v1/videos/upload',

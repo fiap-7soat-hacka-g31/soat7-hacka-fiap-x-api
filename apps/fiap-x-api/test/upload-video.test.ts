@@ -18,10 +18,13 @@ describe('POST /v1/videos/upload', () => {
     await destroyTestApp(app);
   });
 
+  const getVideoPath = () =>
+    join(__dirname, '..', '..', '..', 'test', 'resources', 'video.mp4');
+
   it('should upload a new video', async () => {
     const response = await request(server)
       .post('/v1/videos/upload')
-      .attach('file', join(__dirname, 'resources/video.mp4'));
+      .attach('file', getVideoPath());
     const { statusCode, body } = response;
     expect(statusCode).toBe(201);
     expect(body).toEqual({ id: expect.any(String) });
@@ -43,9 +46,7 @@ describe('POST /v1/videos/upload', () => {
 
   it('should return 409 if video already exists', async () => {
     const makeRequest = () =>
-      request(server)
-        .post('/v1/videos/upload')
-        .attach('file', join(__dirname, 'resources/video.mp4'));
+      request(server).post('/v1/videos/upload').attach('file', getVideoPath());
     await makeRequest();
     const response = await makeRequest();
     const { statusCode } = response;
