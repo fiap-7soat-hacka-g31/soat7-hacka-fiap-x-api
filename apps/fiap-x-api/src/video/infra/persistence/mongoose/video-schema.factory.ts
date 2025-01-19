@@ -15,6 +15,7 @@ export class MongooseVideoSchemaFactory
       _id: new Types.ObjectId(entity.id),
       filename: entity.filename,
       ownerId: new Types.ObjectId(entity.ownerId),
+      snapshotIntervalInSeconds: entity.snapshotIntervalInSeconds,
       status: entity.status,
       videoFile: this.createCloudFileSchema(entity.videoFile),
       zipFile: this.createCloudFileSchema(entity.zipFile),
@@ -27,6 +28,7 @@ export class MongooseVideoSchemaFactory
       entitySchema.filename,
       entitySchema.ownerId.toHexString(),
       VideoStatus.create(entitySchema.status),
+      entitySchema.snapshotIntervalInSeconds,
       this.createCloudFile(entitySchema.videoFile),
       this.createCloudFile(entitySchema.zipFile),
     );

@@ -16,6 +16,7 @@ const getFullAggregate = (): Video =>
     'video.mp4',
     new Types.ObjectId().toHexString(),
     VideoStatus.create('PROCESSED'),
+    5,
     new CloudFile('Fake', 'fake', 'fake/video.mp4'),
     new CloudFile('Fake', 'fake', 'fake/video.zip'),
   );
@@ -25,6 +26,7 @@ const getFullSchema = (): MongooseVideoSchema => ({
   filename: 'video.mp4',
   ownerId: new Types.ObjectId(),
   status: EVideoStatus.Processed,
+  snapshotIntervalInSeconds: 5,
   videoFile: { provider: 'fake', bucket: 'fake', path: 'fake/video.mp4' },
   zipFile: { provider: 'fake', bucket: 'fake', path: 'fake/video.zip' },
   createdAt: new Date(),

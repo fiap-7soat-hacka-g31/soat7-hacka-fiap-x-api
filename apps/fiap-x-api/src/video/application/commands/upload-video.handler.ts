@@ -31,8 +31,7 @@ export class UploadVideoHandler
       data.filename,
       data.ownerId,
       VideoStatus.new(),
-      null,
-      null,
+      data.snapshotIntervalInSeconds,
     );
     const { provider, bucket, path } = await this.storage.uploadVideoForUser(
       `${data.ownerId}/${data.filename}`,

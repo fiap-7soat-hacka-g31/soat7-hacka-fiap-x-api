@@ -60,6 +60,7 @@ describe('UploadVideoHandler', () => {
       'video.mp4',
       new Types.ObjectId().toHexString(),
       VideoStatus.new(),
+      5,
       new CloudFile('AWS::S3', 'bucket', 'path/video.mp4'),
       new CloudFile('AWS::S3', 'bucket', 'path/video.zip'),
     );

@@ -26,6 +26,9 @@ export class MongooseVideoSchema extends MongooseEntitySchema {
   @Prop({ type: String })
   status: VideoStatusValues;
 
+  @Prop()
+  snapshotIntervalInSeconds: number;
+
   @Prop({ type: MongooseCloudFileSchema })
   videoFile: MongooseCloudFileSchema;
 

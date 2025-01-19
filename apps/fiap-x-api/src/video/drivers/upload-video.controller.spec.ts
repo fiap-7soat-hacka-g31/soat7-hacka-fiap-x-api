@@ -23,14 +23,18 @@ describe('UploadVideoController', () => {
     jest.spyOn(commandBus, 'execute').mockResolvedValue({ data: { id } });
     const buffer = Buffer.from('');
     const filename = 'video.mp4';
-    const result = await target.execute({
-      originalname: filename,
-      buffer,
-    } as any);
+    const result = await target.execute(
+      { snapshotIntervalInSeconds: 5 } as any,
+      {
+        originalname: filename,
+        buffer,
+      } as any,
+    );
     expect(commandBus.execute).toHaveBeenCalledWith(
       new UploadVideoCommand({
         content: buffer,
         filename,
+        snapshotIntervalInSeconds: expect.any(Number),
         ownerId: expect.any(String),
       }),
     );
@@ -43,16 +47,20 @@ describe('UploadVideoController', () => {
     const filename = 'video.mp4';
     jest.spyOn(commandBus, 'execute').mockRejectedValue(err);
     await expect(() =>
-      target.execute({
-        originalname: filename,
-        buffer,
-      } as any),
+      target.execute(
+        { snapshotIntervalInSeconds: 5 } as any,
+        {
+          originalname: filename,
+          buffer,
+        } as any,
+      ),
     ).rejects.toThrow(err);
     expect(commandBus.execute).toHaveBeenCalledWith(
       new UploadVideoCommand({
         content: buffer,
         filename,
         ownerId: expect.any(String),
+        snapshotIntervalInSeconds: expect.any(Number),
       }),
     );
   });

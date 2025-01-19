@@ -9,8 +9,9 @@ export class Video extends AggregateRoot {
     private readonly _filename: string,
     private readonly _ownerId: string,
     private _status: VideoStatus,
-    private _videoFile: CloudFile,
-    private _zipFile: CloudFile,
+    private readonly _snapshotIntervalInSeconds: number = 5,
+    private _videoFile: CloudFile = null,
+    private _zipFile: CloudFile = null,
   ) {
     super(_id);
   }
@@ -25,6 +26,10 @@ export class Video extends AggregateRoot {
 
   get status() {
     return this._status.value;
+  }
+
+  get snapshotIntervalInSeconds() {
+    return this._snapshotIntervalInSeconds;
   }
 
   get videoFile() {

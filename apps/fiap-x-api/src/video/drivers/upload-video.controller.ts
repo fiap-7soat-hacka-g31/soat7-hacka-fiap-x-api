@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   FileTypeValidator,
   MaxFileSizeValidator,
@@ -10,6 +11,7 @@ import {
 import { CommandBus } from '@nestjs/cqrs';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadVideoCommand } from '../application/commands/upload-video.command';
+import { UploadVideoInput } from '../application/dtos/upload-video.input';
 
 const ONE_HUNDRED_MEGABYTES = 1000 * 1000 * 100;
 
@@ -20,6 +22,7 @@ export class UploadVideoController {
   @UseInterceptors(FileInterceptor('file'))
   @Post('upload')
   async execute(
+    @Body() input: UploadVideoInput,
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -30,13 +33,11 @@ export class UploadVideoController {
     )
     file: Express.Multer.File,
   ) {
-    const result = await this.commandBus.execute(
-      new UploadVideoCommand({
-        ownerId: '6592008029c8c3e4dc76256c',
-        filename: file.originalname,
-        content: file.buffer,
-      }),
-    );
+    input.ownerId = '6592008029c8c3e4dc76256c';
+    input.filename = file.originalname;
+    input.content = file.buffer;
+
+    const result = await this.commandBus.execute(new UploadVideoCommand(input));
     return result.data;
   }
 }
