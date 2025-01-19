@@ -1,6 +1,9 @@
 import { Given, Suite, Then, When } from '@fiap-x/acceptance-factory';
 import { HttpService } from '@nestjs/axios';
 import { strict as assert } from 'assert';
+import FormData from 'form-data';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
 @Suite()
@@ -11,12 +14,14 @@ export class VideoSuite {
 
   @Given('a video is sent to the service')
   async uploadVideo() {
+    const filename = 'video.mp4';
+    const form = new FormData();
+    const stream = createReadStream(join(__dirname, 'resources', filename));
+    form.append('file', stream, { filename });
     const res = await this.http.axiosRef.post(
-      'http://localhost:4000/v1/payments',
-      {
-        type: 'PixQrCode',
-        amount: 999.99,
-      },
+      'http://localhost:4000/v1/videos/upload',
+      form,
+      { headers: form.getHeaders() },
     );
     this.id = res.data.id;
     await setTimeout(500);
@@ -28,7 +33,7 @@ export class VideoSuite {
   }
 
   @Then('the user received the video id')
-  async verifyPaymentRejected() {
+  async verifyIdExists() {
     assert.ok(this.id);
   }
 }

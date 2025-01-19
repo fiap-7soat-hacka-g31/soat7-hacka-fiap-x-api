@@ -1,4 +1,4 @@
-@Payment
+@FiapX
 Feature: Video Upload
   Allows users to upload their videos.
 
