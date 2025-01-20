@@ -1,7 +1,4 @@
-import {
-  UploadVideoInput,
-  UploadVideoOutput,
-} from '../dtos/upload-video.input';
+import { UploadVideoInput, UploadVideoOutput } from '../dtos/upload-video.io';
 
 export class UploadVideoCommand {
   constructor(readonly data: UploadVideoInput) {}

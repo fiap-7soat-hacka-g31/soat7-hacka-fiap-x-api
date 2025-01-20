@@ -11,7 +11,7 @@ import {
 import { CommandBus } from '@nestjs/cqrs';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadVideoCommand } from '../application/commands/upload-video.command';
-import { UploadVideoInput } from '../application/dtos/upload-video.input';
+import { UploadVideoInput } from '../application/dtos/upload-video.io';
 
 const ONE_HUNDRED_MEGABYTES = 1000 * 1000 * 100;
 

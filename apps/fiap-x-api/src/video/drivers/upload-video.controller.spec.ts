@@ -18,7 +18,7 @@ describe('UploadVideoController', () => {
     commandBus = app.get(CommandBus);
   });
 
-  it('should execute upload video command', async () => {
+  it('should execute UploadVideoCommand', async () => {
     const id = randomUUID();
     jest.spyOn(commandBus, 'execute').mockResolvedValue({ data: { id } });
     const buffer = Buffer.from('');

@@ -8,7 +8,7 @@ export class UploadVideoInput {
 
   @IsInt()
   @IsOptional()
-  @Type(() => Number)
+  @Type(/* istanbul ignore next */ () => Number)
   snapshotIntervalInSeconds?: number;
 }
 

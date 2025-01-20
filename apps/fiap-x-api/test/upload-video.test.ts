@@ -1,9 +1,9 @@
 import { destroyTestApp } from '@fiap-x/test-factory/utils';
 import { INestApplication } from '@nestjs/common';
-import { join } from 'path';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { createTestApp } from './create-app';
+import { getVideoPath } from './utils/utils';
 
 describe('POST /v1/videos/upload', () => {
   let app: INestApplication;
@@ -17,9 +17,6 @@ describe('POST /v1/videos/upload', () => {
   afterAll(async () => {
     await destroyTestApp(app);
   });
-
-  const getVideoPath = () =>
-    join(__dirname, '..', '..', '..', 'test', 'resources', 'video.mp4');
 
   it('should upload a new video', async () => {
     const response = await request(server)
