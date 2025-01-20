@@ -9,5 +9,6 @@ module.exports = {
   collectCoverageFrom: [
     ...jestConfig.collectCoverageFrom,
     '!**/*.value.(t|j)s',
+    '!**/*.exception.(t|j)s',
   ],
 };
