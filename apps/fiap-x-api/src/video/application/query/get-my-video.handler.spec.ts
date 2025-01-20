@@ -60,7 +60,7 @@ describe('GetMyVideo', () => {
     expect(actual.updatedAt).toBeDefined();
   });
 
-  it('should return empty list if no videos were found', async () => {
+  it('should return empty if no video is found', async () => {
     jest.spyOn(model, 'exec').mockResolvedValue(null);
     await expect(
       async () =>
