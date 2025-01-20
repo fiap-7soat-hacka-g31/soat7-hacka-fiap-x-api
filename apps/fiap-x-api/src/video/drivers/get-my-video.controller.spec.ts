@@ -18,8 +18,8 @@ describe('GetMyVideoController', () => {
     queryBus = app.get(QueryBus);
   });
 
-  it('should execute upload video command', async () => {
-    jest.spyOn(queryBus, 'execute').mockResolvedValue({ data: [] });
+  it('should execute GetMyVideoQuery', async () => {
+    jest.spyOn(queryBus, 'execute').mockResolvedValue({ data: {} });
     const result = await target.execute(new Types.ObjectId().toHexString());
     expect(queryBus.execute).toHaveBeenCalledWith(
       new GetMyVideoQuery({
@@ -27,7 +27,7 @@ describe('GetMyVideoController', () => {
         ownerId: expect.any(String),
       }),
     );
-    expect(result.data).toBeInstanceOf(Array);
+    expect(result).toBeDefined();
   });
 
   it('should throw if QueryBus throws', async () => {

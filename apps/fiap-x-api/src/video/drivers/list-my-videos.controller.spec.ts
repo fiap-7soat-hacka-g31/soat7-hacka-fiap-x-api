@@ -17,7 +17,7 @@ describe('ListMyVideosController', () => {
     queryBus = app.get(QueryBus);
   });
 
-  it('should execute upload video command', async () => {
+  it('should execute ListMyVideosQuery', async () => {
     jest.spyOn(queryBus, 'execute').mockResolvedValue({ data: [] });
     const result = await target.execute();
     expect(queryBus.execute).toHaveBeenCalledWith(
