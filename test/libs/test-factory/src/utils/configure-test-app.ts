@@ -53,11 +53,11 @@ export async function createTestApp(
   configureOpenAPI(app);
 
   await app.init();
-  await setTimeout(250);
+  await gracefulShutdownPeriod();
   return app;
 }
 
-const gracefulShutdownPeriod = () => setTimeout(250);
+const gracefulShutdownPeriod = (ms = 250) => setTimeout(ms);
 
 export async function destroyTestApp(app: INestApplication) {
   const mongooseConnection = await app

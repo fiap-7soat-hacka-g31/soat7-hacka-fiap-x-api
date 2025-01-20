@@ -44,13 +44,13 @@
         "tsConfigPath": "libs/amqp/tsconfig.lib.json"
       }
     },
-    "external-providers": {
+    "storage": {
       "type": "library",
-      "root": "libs/external-providers",
+      "root": "libs/storage",
       "entryFile": "index",
-      "sourceRoot": "libs/external-providers/src",
+      "sourceRoot": "libs/storage/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/external-providers/tsconfig.lib.json"
+        "tsConfigPath": "libs/storage/tsconfig.lib.json"
       }
     }
   },

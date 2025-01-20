@@ -1,4 +1,11 @@
 services:
+  aws_s3:
+    image: localstack/localstack:s3-latest
+    container_name: fiapx-aws-s3
+    ports:
+      - 4566:4566
+    volumes:
+      - ./localstack/init-s3.py:/etc/localstack/init/ready.d/init-s3.py
   mongodb:
     image: fiapx/mongodbrs:6
     build:

@@ -6,6 +6,7 @@ export interface Repository<TEntity extends Entity> {
   update(entity: TEntity): Promise<void>;
   findById(id: string): Promise<TEntity>;
   findAll(): Promise<TEntity[]>;
+  newId(): string;
 }
 
 export abstract class EventRepository<

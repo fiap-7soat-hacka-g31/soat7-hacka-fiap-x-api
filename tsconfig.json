@@ -18,42 +18,18 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@fiap-x/setup": [
-        "libs/setup/src"
-      ],
-      "@fiap-x/setup/*": [
-        "libs/setup/src/*"
-      ],
-      "@fiap-x/tactical-design": [
-        "libs/tactical-design/src"
-      ],
-      "@fiap-x/tactical-design/*": [
-        "libs/tactical-design/src/*"
-      ],
-      "@fiap-x/test-factory": [
-        "test/libs/test-factory/src"
-      ],
-      "@fiap-x/test-factory/*": [
-        "test/libs/test-factory/src/*"
-      ],
-      "@fiap-x/acceptance-factory": [
-        "test/libs/acceptance-factory/src"
-      ],
-      "@fiap-x/acceptance-factory/*": [
-        "test/libs/acceptance-factory/src/*"
-      ],
-      "@fiap-x/amqp": [
-        "libs/amqp/src"
-      ],
-      "@fiap-x/amqp/*": [
-        "libs/amqp/src/*"
-      ],
-      "@fiap-x/external-providers": [
-        "libs/external-providers/src"
-      ],
-      "@fiap-x/external-providers/*": [
-        "libs/external-providers/src/*"
-      ]
+      "@fiap-x/setup": ["libs/setup/src"],
+      "@fiap-x/setup/*": ["libs/setup/src/*"],
+      "@fiap-x/tactical-design": ["libs/tactical-design/src"],
+      "@fiap-x/tactical-design/*": ["libs/tactical-design/src/*"],
+      "@fiap-x/test-factory": ["test/libs/test-factory/src"],
+      "@fiap-x/test-factory/*": ["test/libs/test-factory/src/*"],
+      "@fiap-x/acceptance-factory": ["test/libs/acceptance-factory/src"],
+      "@fiap-x/acceptance-factory/*": ["test/libs/acceptance-factory/src/*"],
+      "@fiap-x/amqp": ["libs/amqp/src"],
+      "@fiap-x/amqp/*": ["libs/amqp/src/*"],
+      "@fiap-x/storage": ["libs/storage/src"],
+      "@fiap-x/storage/*": ["libs/storage/src/*"]
     }
   }
 }
