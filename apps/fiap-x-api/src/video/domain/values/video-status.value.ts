@@ -2,7 +2,6 @@ import { StatusTransitionException } from '../errors/status-transition.exception
 
 export enum EVideoStatus {
   Pending = 'PENDING',
-  Processing = 'PROCESSING',
   Processed = 'PROCESSED',
   Failed = 'FAILED',
 }
@@ -19,7 +18,6 @@ export abstract class VideoStatus {
   static create(value: VideoStatusValues) {
     const StatusMap: Record<VideoStatusValues, new () => VideoStatus> = {
       [EVideoStatus.Pending]: PendingVideoStatus,
-      [EVideoStatus.Processing]: ProcessingVideoStatus,
       [EVideoStatus.Processed]: ProcessedVideoStatus,
       [EVideoStatus.Failed]: FailedVideoStatus,
     };
@@ -37,9 +35,6 @@ export abstract class VideoStatus {
   pending(): VideoStatus {
     throw new StatusTransitionException(this._value, EVideoStatus.Pending);
   }
-  processing(): VideoStatus {
-    throw new StatusTransitionException(this._value, EVideoStatus.Processing);
-  }
   processed(): VideoStatus {
     throw new StatusTransitionException(this._value, EVideoStatus.Processed);
   }
@@ -50,13 +45,6 @@ export abstract class VideoStatus {
 
 class PendingVideoStatus extends VideoStatus {
   protected readonly _value = EVideoStatus.Pending;
-
-  processing() {
-    return new ProcessingVideoStatus();
-  }
-}
-class ProcessingVideoStatus extends VideoStatus {
-  protected readonly _value = EVideoStatus.Processing;
 
   processed() {
     return new ProcessedVideoStatus();
