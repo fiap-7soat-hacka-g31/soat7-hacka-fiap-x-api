@@ -7,7 +7,6 @@ import {
 
 const AllStatusValues: VideoStatusValues[] = [
   EVideoStatus.Pending,
-  EVideoStatus.Processing,
   EVideoStatus.Processed,
   EVideoStatus.Failed,
 ];
@@ -33,24 +32,17 @@ describe('VideoStatus', () => {
       );
     });
 
-    it('should allow transitioning from "Pending" to "Processing"', () => {
+    it('should allow transitioning from "Pending" to "Failed"', () => {
       const initial = VideoStatus.create(EVideoStatus.Pending);
-      const actual = initial.processing();
-      expect(initial.value).toBe(EVideoStatus.Pending);
-      expect(actual.value).toBe(EVideoStatus.Processing);
-    });
-
-    it('should allow transitioning from "Processing" to "Failed"', () => {
-      const initial = VideoStatus.create(EVideoStatus.Processing);
       const actual = initial.failed();
-      expect(initial.value).toBe(EVideoStatus.Processing);
+      expect(initial.value).toBe(EVideoStatus.Pending);
       expect(actual.value).toBe(EVideoStatus.Failed);
     });
 
-    it('should allow transitioning from "Processing" to "Processed"', () => {
-      const initial = VideoStatus.create(EVideoStatus.Processing);
+    it('should allow transitioning from "Pending" to "Processed"', () => {
+      const initial = VideoStatus.create(EVideoStatus.Pending);
       const actual = initial.processed();
-      expect(initial.value).toBe(EVideoStatus.Processing);
+      expect(initial.value).toBe(EVideoStatus.Pending);
       expect(actual.value).toBe(EVideoStatus.Processed);
     });
 
@@ -59,34 +51,9 @@ describe('VideoStatus', () => {
       expect(() => initial.pending()).toThrow(StatusTransitionException);
     });
 
-    it('should not allow transitioning from "Pending" to "Processed"', () => {
-      const initial = VideoStatus.create(EVideoStatus.Pending);
-      expect(() => initial.processed()).toThrow(StatusTransitionException);
-    });
-
-    it('should not allow transitioning from "Pending" to "Failed"', () => {
-      const initial = VideoStatus.create(EVideoStatus.Pending);
-      expect(() => initial.failed()).toThrow(StatusTransitionException);
-    });
-
-    it('should not allow transitioning from "Processing" to "Pending"', () => {
-      const initial = VideoStatus.create(EVideoStatus.Processing);
-      expect(() => initial.pending()).toThrow(StatusTransitionException);
-    });
-
-    it('should not allow transitioning from "Processing" to "Processing"', () => {
-      const initial = VideoStatus.create(EVideoStatus.Processing);
-      expect(() => initial.processing()).toThrow(StatusTransitionException);
-    });
-
     it('should not allow transitioning from "Processed" to "Pending"', () => {
       const initial = VideoStatus.create(EVideoStatus.Processed);
       expect(() => initial.pending()).toThrow(StatusTransitionException);
-    });
-
-    it('should not allow transitioning from "Processed" to "Processing"', () => {
-      const initial = VideoStatus.create(EVideoStatus.Processed);
-      expect(() => initial.processing()).toThrow(StatusTransitionException);
     });
 
     it('should not allow transitioning from "Processed" to "Failed"', () => {
@@ -104,14 +71,9 @@ describe('VideoStatus', () => {
       expect(() => initial.pending()).toThrow(StatusTransitionException);
     });
 
-    it('should not allow transitioning from "Failed" to "Processing"', () => {
-      const initial = VideoStatus.create(EVideoStatus.Failed);
-      expect(() => initial.processing()).toThrow(StatusTransitionException);
-    });
-
-    it('should not allow transitioning from "Failed" to "Failed"', () => {
-      const initial = VideoStatus.create(EVideoStatus.Failed);
-      expect(() => initial.failed()).toThrow(StatusTransitionException);
+    it('should not allow transitioning from "Failed" to "Processed"', () => {
+      const initial = VideoStatus.create(EVideoStatus.Processed);
+      expect(() => initial.processed()).toThrow(StatusTransitionException);
     });
 
     it('should not allow transitioning from "Failed" to "Failed"', () => {
