@@ -4,6 +4,7 @@ import { Types } from 'mongoose';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { createTestApp } from './create-app';
+import { getBearerToken } from './utils/get-bearer-token';
 import { getVideoPath } from './utils/utils';
 
 describe('POST /v1/videos/upload', () => {
@@ -20,19 +21,26 @@ describe('POST /v1/videos/upload', () => {
   });
 
   it('should return not found if no videos exsit', async () => {
+    const bearer = await getBearerToken(app);
     const id = new Types.ObjectId().toHexString();
-    const response = await request(server).get(`/v1/me/videos/${id}`);
+    const response = await request(server)
+      .get(`/v1/me/videos/${id}`)
+      .set('Authorization', bearer);
     const { statusCode } = response;
     expect(statusCode).toBe(404);
   });
 
-  it('should list existing videos', async () => {
+  it('should return if video exists', async () => {
+    const bearer = await getBearerToken(app);
     const createResponse = await request(server)
       .post('/v1/videos/upload')
-      .attach('file', getVideoPath());
+      .attach('file', getVideoPath())
+      .set('Authorization', bearer);
     const { id } = createResponse.body;
 
-    const response = await request(server).get(`/v1/me/videos/${id}`);
+    const response = await request(server)
+      .get(`/v1/me/videos/${id}`)
+      .set('Authorization', bearer);
 
     const { statusCode, body } = response;
     expect(statusCode).toBe(200);

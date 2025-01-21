@@ -19,6 +19,7 @@ services:
       ROUTE_PREFIX: ''
       MONGO_URL: 'mongodb://fiapx:fiapx@mongodb:27017/FiapXAPI?authSource=admin'
       AMQP_URL: 'amqp://fiapx:fiapx@rabbitmq:5672'
+      BASE_URL_IDENTITY_SERVICE: 'http://fiap-x-identity:3400'
       AWS_ACCESS_KEY_ID: 'test'
       AWS_SECRET_ACCESS_KEY: 'test'
       AWS_SESSION_TOKEN: ''
@@ -29,6 +30,27 @@ services:
     command: sh -c "sleep 10 && npm run start:prod"
     ports:
       - 4000:3000
+    depends_on: [mongodb, rabbitmq]
+  fiap-x-identity:
+    image: gm50x/fiap-x-identity:latest
+    restart: 'on-failure'
+    ports:
+      - 3400:3400
+    environment:
+      NODE_ENV: 'development'
+      APP_NAME: 'FiapXIdentity'
+      APP_DESCRIPTION: 'Identity Component for Fiap X'
+      APP_VERSION: '1.0.0'
+      PORT: '3400'
+      LOG_LEVEL: 'debug'
+      LOG_FORMAT: 'pretty' # pretty | json
+      TRAFFIC_INSPECTION_HTTP: 'all' # inbound|outbound|all|none
+      TRAFFIC_INSPECTION_AMQP: 'all' # inbound|outbound|all|none
+      ROUTE_PREFIX: ''
+      MONGO_URL: 'mongodb://fiapx:fiapx@mongodb:27017/FiapXIdentity?authSource=admin'
+      AMQP_URL: 'amqp://fiapx:fiapx@rabbitmq:5672'
+      JWT_SIGNING_SECRET: 'supersecret'
+      JWT_EXPIRES_IN: '900s'
     depends_on: [mongodb, rabbitmq]
   aws_s3:
     image: localstack/localstack:s3-latest

@@ -11,6 +11,7 @@ export const environment = {
   NODE_ENV: 'testing',
   MONGO_URL: `mongodb://${basicBearer}@${mongodbHost}:27017/${virtualEnvironment}?authSource=admin`,
   AMQP_URL: `amqp://${basicBearer}@${rabbitmqHost}:5672/${virtualEnvironment}`,
+  BASE_URL_IDENTITY_SERVICE: 'http://localhost:3400',
   AWS_ACCESS_KEY_ID: 'test',
   AWS_SECRET_ACCESS_KEY: 'test',
   AWS_SESSION_TOKEN: '',

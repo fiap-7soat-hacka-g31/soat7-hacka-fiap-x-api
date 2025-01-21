@@ -1,6 +1,10 @@
+import { User } from '@fiap-x/setup/auth';
+import { HttpModule } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
 import { CommandBus, CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { randomUUID } from 'crypto';
+import { Types } from 'mongoose';
 import { UploadVideoCommand } from '../application/commands/upload-video.command';
 import { UploadVideoController } from './upload-video.controller';
 
@@ -10,12 +14,18 @@ describe('UploadVideoController', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [CqrsModule],
+      imports: [CqrsModule, HttpModule, ConfigModule],
       controllers: [UploadVideoController],
     }).compile();
 
     target = app.get(UploadVideoController);
     commandBus = app.get(CommandBus);
+  });
+
+  const user = new User({
+    id: new Types.ObjectId().toHexString(),
+    name: 'Jack Sparrow',
+    email: 'jack@sparrow.com',
   });
 
   it('should execute UploadVideoCommand', async () => {
@@ -29,6 +39,7 @@ describe('UploadVideoController', () => {
         originalname: filename,
         buffer,
       } as any,
+      user,
     );
     expect(commandBus.execute).toHaveBeenCalledWith(
       new UploadVideoCommand({
@@ -53,6 +64,7 @@ describe('UploadVideoController', () => {
           originalname: filename,
           buffer,
         } as any,
+        user,
       ),
     ).rejects.toThrow(err);
     expect(commandBus.execute).toHaveBeenCalledWith(
