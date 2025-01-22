@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 
 const rabbitmqHost = 'localhost';
 const mongodbHost = 'localhost';
+const identityServiceHost = 'localhost';
 
 const basicBearer = `fiapx:fiapx`;
 export const virtualEnvironment = randomUUID().split('-').at(0);
@@ -11,7 +12,7 @@ export const environment = {
   NODE_ENV: 'testing',
   MONGO_URL: `mongodb://${basicBearer}@${mongodbHost}:27017/${virtualEnvironment}?authSource=admin`,
   AMQP_URL: `amqp://${basicBearer}@${rabbitmqHost}:5672/${virtualEnvironment}`,
-  BASE_URL_IDENTITY_SERVICE: 'http://localhost:3400',
+  BASE_URL_IDENTITY_SERVICE: `http://${identityServiceHost}:3400`,
   AWS_ACCESS_KEY_ID: 'test',
   AWS_SECRET_ACCESS_KEY: 'test',
   AWS_SESSION_TOKEN: '',
