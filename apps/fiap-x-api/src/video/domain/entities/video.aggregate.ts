@@ -1,5 +1,7 @@
 import { AggregateRoot } from '@fiap-x/tactical-design/core';
+import { ProcessingFailed } from '../events/processing-failed.event';
 import { VideoUploaded } from '../events/video-uploaded.event';
+import { ZipAppended } from '../events/zip-uploaded.event';
 import { CloudFile } from '../values/cloud-file.value';
 import { VideoStatus } from '../values/video-status.value';
 
@@ -47,5 +49,22 @@ export class Video extends AggregateRoot {
   onVideoUploaded(event: VideoUploaded) {
     this._status = VideoStatus.new();
     this._videoFile = new CloudFile(event.provider, event.bucket, event.path);
+  }
+
+  appendZip(provider: string, bucket: string, path: string) {
+    this.apply(new ZipAppended(provider, bucket, path));
+  }
+
+  onZipAppended(event: ZipAppended) {
+    this._status = this._status.processed();
+    this._zipFile = new CloudFile(event.provider, event.bucket, event.path);
+  }
+
+  reject(reason: string) {
+    this.apply(new ProcessingFailed(reason));
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onProcessingFailed(event: ProcessingFailed) {
+    this._status = this._status.failed();
   }
 }

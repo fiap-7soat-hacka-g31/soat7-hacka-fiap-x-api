@@ -9,7 +9,9 @@ export class NestWorld extends World {
   constructor(params: IWorldOptions) {
     super(params);
     this.registerScenario().catch((error) => {
+      // eslint-disable-next-line no-console
       console.error('Error registering scenario with NestJS');
+      // eslint-disable-next-line no-console
       console.error(error);
       process.exit(1);
     });

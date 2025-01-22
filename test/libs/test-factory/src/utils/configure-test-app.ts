@@ -53,7 +53,7 @@ export async function createTestApp(
   configureOpenAPI(app);
 
   await app.init();
-  await gracefulShutdownPeriod();
+  await gracefulShutdownPeriod(500);
   return app;
 }
 

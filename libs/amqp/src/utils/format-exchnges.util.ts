@@ -5,5 +5,6 @@ export const formatExchanges = (exchanges: AmqpModuleOptions['exchanges']) => {
   return exchanges.map(({ name, ...x }) => ({
     ...x,
     name: toDottedNotation(name),
+    createExchangeIfNotExists: true,
   }));
 };
