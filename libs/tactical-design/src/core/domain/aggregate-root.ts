@@ -47,6 +47,8 @@ export class AggregateEvent<T extends DomainEvent = DomainEvent> {
   }
 }
 
+export abstract class IntegrationEvent<T> extends AggregateEvent<T> {}
+
 export interface AggregateContext {
   /**
    * Propagates the aggregate events to the configured contexts

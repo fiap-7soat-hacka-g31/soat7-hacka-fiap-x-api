@@ -3,6 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ApplicationModule } from '../application/application.module';
 import { GetMyVideoController } from './get-my-video.controller';
 import { ListMyVideosController } from './list-my-videos.controller';
+import { ProcessSnapshotsResultController } from './process-snapshots-result.controller';
 import { UploadVideoController } from './upload-video.controller';
 
 const HttpDrivers = [
@@ -11,7 +12,7 @@ const HttpDrivers = [
   ListMyVideosController,
 ];
 
-const AmqpDrivers = [];
+const AmqpDrivers = [ProcessSnapshotsResultController];
 
 @Module({
   imports: [CqrsModule, ApplicationModule],

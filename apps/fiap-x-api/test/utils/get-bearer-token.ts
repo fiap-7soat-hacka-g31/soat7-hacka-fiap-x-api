@@ -16,6 +16,8 @@ export const getBearerToken = async (
     password: 'j@cK!123Yay',
   };
 
+  console.log({ baseURL });
+
   const res = await http.axiosRef.post(`${baseURL}/v1/auth/sign-up`, payload);
 
   return `Bearer ${res.data.access_token}`;
