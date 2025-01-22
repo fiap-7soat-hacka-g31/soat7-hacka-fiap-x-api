@@ -17,7 +17,7 @@ describe('ProcessSnapshotsResult', () => {
   let server: App;
 
   beforeAll(async () => {
-    app = await createTestApp(false);
+    app = await createTestApp();
     server = app.getHttpServer();
   });
 
