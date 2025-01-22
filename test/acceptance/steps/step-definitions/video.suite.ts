@@ -11,10 +11,30 @@ import { setTimeout } from 'timers/promises';
 export class VideoSuite {
   private id: string;
 
+  private bearer: string;
+
   constructor(private readonly http: HttpService) {}
+
+  private async getBearerToken() {
+    const baseURL = 'http://localhost:3400';
+    const random = randomUUID().split('-').at(0);
+    const payload = {
+      name: `Jack Sparrow ${random}`,
+      email: `${random}-jack@sparrow.com`,
+      password: 'j@cK!123Yay',
+    };
+
+    const res = await this.http.axiosRef.post(
+      `${baseURL}/v1/auth/sign-up`,
+      payload,
+    );
+
+    return `Bearer ${res.data.access_token}`;
+  }
 
   @Given('a video is sent to the service')
   async uploadVideo() {
+    this.bearer = await this.getBearerToken();
     const filename = `${randomUUID()}.mp4`;
     const form = new FormData();
     const path = join(__dirname, '..', '..', '..', 'resources', 'video.mp4');
@@ -23,7 +43,7 @@ export class VideoSuite {
     const res = await this.http.axiosRef.post(
       'http://localhost:4000/v1/videos/upload',
       form,
-      { headers: form.getHeaders() },
+      { headers: { ...form.getHeaders(), Authorization: this.bearer } },
     );
     this.id = res.data.id;
     await setTimeout(500);

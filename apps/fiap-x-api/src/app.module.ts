@@ -1,5 +1,6 @@
 import { AmqpModule } from '@fiap-x/amqp';
 import { CommonModule, ContextModule, HealthzModule } from '@fiap-x/setup';
+import { AuthModule } from '@fiap-x/setup/auth';
 import { AmqpTacticalDesignModule } from '@fiap-x/tactical-design/amqp';
 import { TacticalDesignModule } from '@fiap-x/tactical-design/core';
 import {
@@ -26,6 +27,7 @@ import { VideoModule } from './video/video.module';
     MongooseTacticalDesignModule,
     AmqpTacticalDesignModule,
     MongooseTransactionalModule,
+    AuthModule,
     VideoModule,
   ],
 })

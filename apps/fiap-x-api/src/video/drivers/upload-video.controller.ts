@@ -1,3 +1,4 @@
+import { AuthUser, User, WithAuthentication } from '@fiap-x/setup/auth';
 import {
   Body,
   Controller,
@@ -15,6 +16,7 @@ import { UploadVideoInput } from '../application/dtos/upload-video.io';
 
 const ONE_HUNDRED_MEGABYTES = 1000 * 1000 * 100;
 
+@WithAuthentication()
 @Controller({ version: '1', path: 'videos' })
 export class UploadVideoController {
   constructor(private readonly commandBus: CommandBus) {}
@@ -32,8 +34,9 @@ export class UploadVideoController {
       }),
     )
     file: Express.Multer.File,
+    @AuthUser() user: User,
   ) {
-    input.ownerId = '6592008029c8c3e4dc76256c';
+    input.ownerId = user.id;
     input.filename = file.originalname;
     input.content = file.buffer;
 
