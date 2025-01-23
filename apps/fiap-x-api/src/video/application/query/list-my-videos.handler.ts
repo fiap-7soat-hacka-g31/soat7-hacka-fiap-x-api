@@ -1,7 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { EVideoStatus } from '../../domain/values/video-status.value';
 import { MongooseVideoSchema } from '../../infra/persistence/mongoose/video.schema';
 import { ListMyVideosOutput } from '../dtos/list-my-videos.io';
 import { ListMyVideosQuery, ListMyVideosResult } from './list-my-videos.query';
@@ -37,10 +36,7 @@ export class ListMyVideosHandler
           snapshotIntervalInSeconds: x.snapshotIntervalInSeconds,
           status: x.status,
           videoPath: `/videos/${hexId}?target=video`,
-          zipPath:
-            x.status === EVideoStatus.Processed
-              ? `/videos/${hexId}?target=zip`
-              : null,
+          zipPath: `/videos/${hexId}?target=zip`,
           createdAt: x.createdAt,
           updatedAt: x.updatedAt,
         });

@@ -5,20 +5,20 @@ import { CommandBus, CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { randomUUID } from 'crypto';
 import { Types } from 'mongoose';
-import { UploadVideoCommand } from '../application/commands/upload-video.command';
-import { UploadVideoController } from './upload-video.controller';
+import { CreateVideoCommand } from '../application/commands/create-video.command';
+import { CreateVideoController } from './create-my-video.controller';
 
-describe('UploadVideoController', () => {
-  let target: UploadVideoController;
+describe('CreateVideoController', () => {
+  let target: CreateVideoController;
   let commandBus: CommandBus;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [CqrsModule, HttpModule, ConfigModule],
-      controllers: [UploadVideoController],
+      controllers: [CreateVideoController],
     }).compile();
 
-    target = app.get(UploadVideoController);
+    target = app.get(CreateVideoController);
     commandBus = app.get(CommandBus);
   });
 
@@ -31,19 +31,13 @@ describe('UploadVideoController', () => {
   it('should execute UploadVideoCommand', async () => {
     const id = randomUUID();
     jest.spyOn(commandBus, 'execute').mockResolvedValue({ data: { id } });
-    const buffer = Buffer.from('');
     const filename = 'video.mp4';
     const result = await target.execute(
-      { snapshotIntervalInSeconds: 5 } as any,
-      {
-        originalname: filename,
-        buffer,
-      } as any,
+      { snapshotIntervalInSeconds: 5, filename, ownerId: null },
       user,
     );
     expect(commandBus.execute).toHaveBeenCalledWith(
-      new UploadVideoCommand({
-        content: buffer,
+      new CreateVideoCommand({
         filename,
         snapshotIntervalInSeconds: expect.any(Number),
         ownerId: expect.any(String),
@@ -54,22 +48,16 @@ describe('UploadVideoController', () => {
 
   it('should throw if commandBus throws', async () => {
     const err = new Error('Too Bad');
-    const buffer = Buffer.from('');
     const filename = 'video.mp4';
     jest.spyOn(commandBus, 'execute').mockRejectedValue(err);
     await expect(() =>
       target.execute(
-        { snapshotIntervalInSeconds: 5 } as any,
-        {
-          originalname: filename,
-          buffer,
-        } as any,
+        { snapshotIntervalInSeconds: 5, filename, ownerId: null },
         user,
       ),
     ).rejects.toThrow(err);
     expect(commandBus.execute).toHaveBeenCalledWith(
-      new UploadVideoCommand({
-        content: buffer,
+      new CreateVideoCommand({
         filename,
         ownerId: expect.any(String),
         snapshotIntervalInSeconds: expect.any(Number),

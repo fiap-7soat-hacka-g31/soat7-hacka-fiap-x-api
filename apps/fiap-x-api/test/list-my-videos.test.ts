@@ -4,9 +4,8 @@ import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { createTestApp } from './create-app';
 import { getBearerToken } from './utils/get-bearer-token';
-import { getVideoPath } from './utils/utils';
 
-describe('POST /v1/videos/upload', () => {
+describe('POST /v1/me/videos', () => {
   let app: INestApplication;
   let server: App;
 
@@ -34,8 +33,11 @@ describe('POST /v1/videos/upload', () => {
   it('should list existing videos', async () => {
     const bearer = await getBearerToken(app);
     await request(server)
-      .post('/v1/videos/upload')
-      .attach('file', getVideoPath())
+      .post('/v1/me/videos')
+      .send({
+        filename: 'My Awesome Video',
+        snapshotIntervalInSeconds: 10,
+      })
       .set('Authorization', bearer);
 
     const response = await request(server)

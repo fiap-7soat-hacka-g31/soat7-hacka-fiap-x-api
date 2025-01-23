@@ -10,7 +10,7 @@ import { AwsS3StorageService } from './aws-s3-storage.service';
     {
       provide: S3Client,
       inject: [ConfigService],
-      useFactory: AwsS3ConfigFactory.create.bind(AwsS3ConfigFactory),
+      useFactory: AwsS3ConfigFactory.createS3Client.bind(AwsS3ConfigFactory),
     },
   ],
   exports: [AwsS3StorageService],

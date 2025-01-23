@@ -6,6 +6,7 @@ Feature: Video Upload
     Given a video is sent to the service
     When the app finishes storing the video
     Then the user received the video id
+    And the user received the video upload signed url
 
   # Scenario: 
   #   Given a payment was requested

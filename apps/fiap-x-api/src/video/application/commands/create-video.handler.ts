@@ -5,11 +5,11 @@ import { Video } from '../../domain/entities/video.aggregate';
 import { VideoStatus } from '../../domain/values/video-status.value';
 import { StorageService } from '../abstractions/storage.service';
 import { VideoRepository } from '../abstractions/video.repository';
-import { UploadVideoCommand, UploadVideoResult } from './upload-video.command';
+import { CreateVideoCommand, CreateVideoResult } from './create-video.command';
 
-@CommandHandler(UploadVideoCommand)
-export class UploadVideoHandler
-  implements ICommandHandler<UploadVideoCommand, UploadVideoResult>
+@CommandHandler(CreateVideoCommand)
+export class CreateVideoHandler
+  implements ICommandHandler<CreateVideoCommand, CreateVideoResult>
 {
   constructor(
     private readonly repository: VideoRepository,
@@ -17,7 +17,7 @@ export class UploadVideoHandler
   ) {}
 
   @Transactional()
-  async execute(command: UploadVideoCommand): Promise<UploadVideoResult> {
+  async execute(command: CreateVideoCommand): Promise<CreateVideoResult> {
     const { data } = command;
     const exists = await this.repository.findByOwnerAndFilename(
       data.ownerId,
@@ -33,13 +33,16 @@ export class UploadVideoHandler
       VideoStatus.new(),
       data.snapshotIntervalInSeconds,
     );
-    const { provider, bucket, path } = await this.storage.uploadVideoForUser(
-      `${data.ownerId}/${data.filename}`,
-      data.content,
-    );
-    video.upload(provider, bucket, path);
+    const { provider, bucket, path, signedUrl } =
+      await this.storage.createSignedUrlForUpload(
+        `${data.ownerId}/${video.id}`,
+      );
+    video.create(provider, bucket, path);
     await this.repository.create(video);
     await video.commit();
-    return new UploadVideoResult({ id: video.id });
+    return new CreateVideoResult({
+      id: video.id,
+      signedUrlForUpload: signedUrl,
+    });
   }
 }

@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { InfraModule } from '../infra/infra.module';
+import { CreateVideoHandler } from './commands/create-video.handler';
 import { ProcessSnapshotsResultHandler } from './commands/process-snapshots-result.handler';
-import { UploadVideoHandler } from './commands/upload-video.handler';
 import { GetMyVideoHandler } from './query/get-my-video.handler';
 import { ListMyVideosHandler } from './query/list-my-videos.handler';
 
 const QueryHandlers = [];
 const CommandHandlers = [
-  UploadVideoHandler,
+  CreateVideoHandler,
   GetMyVideoHandler,
   ListMyVideosHandler,
   ProcessSnapshotsResultHandler,
