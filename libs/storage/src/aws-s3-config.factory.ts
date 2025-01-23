@@ -1,10 +1,10 @@
-import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
+import { S3, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AwsS3ConfigFactory {
-  static create(config: ConfigService) {
+  static createS3Client(config: ConfigService): S3Client {
     const useLocalstack =
       config.get('AWS_S3_USE_LOCALSTACK', 'false') === 'true';
 
@@ -12,6 +12,17 @@ export class AwsS3ConfigFactory {
       ? this.getLocalstackConfig(config)
       : this.getConfig(config);
     return new S3Client(s3Config);
+  }
+
+  static createS3(config: ConfigService): S3 {
+    const useLocalstack =
+      config.get('AWS_S3_USE_LOCALSTACK', 'false') === 'true';
+
+    const s3Config = useLocalstack
+      ? this.getLocalstackConfig(config)
+      : this.getConfig(config);
+
+    return new S3(s3Config);
   }
 
   private static getConfig(config: ConfigService): S3ClientConfig {
@@ -34,5 +45,3 @@ export class AwsS3ConfigFactory {
     };
   }
 }
-//aws --endpoint-url=http://localhost:4566 s3api list-objects --bucket=fiap7soat-f5-hacka
-//aws --endpoint-url=http://localhost:4566 s3api delete-object --bucket=fiap7soat-f5-hacka --key=6592008029c8c3e4dc76256c/frame_at_140.png

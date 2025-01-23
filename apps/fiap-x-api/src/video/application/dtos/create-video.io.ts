@@ -1,10 +1,11 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional } from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 
-export class UploadVideoInput {
-  filename: string;
-  content: Buffer<ArrayBufferLike>;
+export class CreateVideoInput {
   ownerId: string;
+
+  @IsString()
+  filename: string;
 
   @IsInt()
   @IsOptional()
@@ -12,6 +13,7 @@ export class UploadVideoInput {
   snapshotIntervalInSeconds?: number;
 }
 
-export class UploadVideoOutput {
+export class CreateVideoOutput {
   id: string;
+  signedUrlForUpload: string;
 }

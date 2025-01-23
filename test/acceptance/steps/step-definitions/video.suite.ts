@@ -1,4 +1,4 @@
-import { Given, Suite, Then, When } from '@fiap-x/acceptance-factory';
+import { And, Given, Suite, Then, When } from '@fiap-x/acceptance-factory';
 import { HttpService } from '@nestjs/axios';
 import { strict as assert } from 'assert';
 import { randomUUID } from 'crypto';
@@ -10,6 +10,7 @@ import { setTimeout } from 'timers/promises';
 @Suite()
 export class VideoSuite {
   private id: string;
+  private signedUrl: string;
 
   private bearer: string;
 
@@ -33,7 +34,7 @@ export class VideoSuite {
   }
 
   @Given('a video is sent to the service')
-  async uploadVideo() {
+  async createVideo() {
     this.bearer = await this.getBearerToken();
     const filename = `${randomUUID()}.mp4`;
     const form = new FormData();
@@ -41,11 +42,15 @@ export class VideoSuite {
     const stream = createReadStream(path);
     form.append('file', stream, { filename });
     const res = await this.http.axiosRef.post(
-      'http://localhost:4000/v1/videos/upload',
-      form,
-      { headers: { ...form.getHeaders(), Authorization: this.bearer } },
+      'http://localhost:4000/v1/me/videos',
+      {
+        filename: 'My Awesome Video',
+        snapshotIntervalInSeconds: 10,
+      },
+      { headers: { Authorization: this.bearer } },
     );
     this.id = res.data.id;
+    this.signedUrl = res.data.signedUrlForUpload;
     await setTimeout(500);
   }
 
@@ -57,5 +62,10 @@ export class VideoSuite {
   @Then('the user received the video id')
   async verifyIdExists() {
     assert.ok(this.id);
+  }
+
+  @And('the user received the video upload signed url')
+  async verifySignedUrlExists() {
+    assert.ok(this.signedUrl);
   }
 }

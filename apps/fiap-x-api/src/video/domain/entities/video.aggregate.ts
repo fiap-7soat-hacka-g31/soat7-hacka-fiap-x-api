@@ -42,7 +42,7 @@ export class Video extends AggregateRoot {
     return this._zipFile;
   }
 
-  upload(provider: string, bucket: string, path: string) {
+  create(provider: string, bucket: string, path: string) {
     this.apply(new VideoUploaded(provider, bucket, path));
   }
 

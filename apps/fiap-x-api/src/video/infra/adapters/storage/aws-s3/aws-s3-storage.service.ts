@@ -2,8 +2,8 @@ import { AwsS3StorageService } from '@fiap-x/storage';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
+  CreateSignedUrlForUploadResult,
   StorageService,
-  UploadVideoResult,
 } from '../../../../application/abstractions/storage.service';
 
 @Injectable()
@@ -13,15 +13,16 @@ export class AwsS3VideoStorageService implements StorageService {
     private readonly config: ConfigService,
   ) {}
 
-  async uploadVideoForUser(
+  async createSignedUrlForUpload(
     path: string,
-    content: Buffer<ArrayBufferLike>,
-  ): Promise<UploadVideoResult> {
+  ): Promise<CreateSignedUrlForUploadResult> {
     const bucket = this.config.get('AWS_S3_BUCKET_NAME');
-    return this.client.uploadFile({
-      bucket,
-      path,
-      content,
-    });
+    const result = await this.client.createSignedUrlForUpload(bucket, path);
+    return {
+      provider: result.provider,
+      bucket: result.bucket,
+      path: result.key,
+      signedUrl: result.signedUrl,
+    };
   }
 }

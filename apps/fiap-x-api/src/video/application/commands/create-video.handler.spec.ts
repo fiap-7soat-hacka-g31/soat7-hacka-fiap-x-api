@@ -12,12 +12,12 @@ import { VideoStatus } from '../../domain/values/video-status.value';
 import { AwsS3VideoStorageService } from '../../infra/adapters/storage/aws-s3/aws-s3-storage.service';
 import { StorageService } from '../abstractions/storage.service';
 import { VideoRepository } from '../abstractions/video.repository';
-import { UploadVideoCommand } from './upload-video.command';
-import { UploadVideoHandler } from './upload-video.handler';
+import { CreateVideoCommand } from './create-video.command';
+import { CreateVideoHandler } from './create-video.handler';
 
-describe('UploadVideoHandler', () => {
+describe('CreateVideoHandler', () => {
   let app: INestApplication;
-  let target: UploadVideoHandler;
+  let target: CreateVideoHandler;
   let repository: VideoRepository;
   let storage: StorageService;
 
@@ -28,7 +28,7 @@ describe('UploadVideoHandler', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       providers: [
-        UploadVideoHandler,
+        CreateVideoHandler,
         {
           provide: TransactionManager,
           useClass: FakeTransactionManager,
@@ -45,7 +45,7 @@ describe('UploadVideoHandler', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    target = app.get(UploadVideoHandler);
+    target = app.get(CreateVideoHandler);
     repository = app.get(VideoRepository);
     storage = app.get(StorageService);
     repository.findByOwnerAndFilename = jest.fn();
@@ -66,35 +66,37 @@ describe('UploadVideoHandler', () => {
     );
 
   const getCommand = (aggregate: Video) =>
-    new UploadVideoCommand({
-      content: Buffer.from('test'),
+    new CreateVideoCommand({
       filename: aggregate.filename,
       ownerId: aggregate.ownerId,
     });
 
-  it('should create the new video', async () => {
+  it('should create the new video and return a signed url for it', async () => {
     const aggregate = getAggregate();
     const command = getCommand(aggregate);
-    jest.spyOn(storage, 'uploadVideoForUser').mockResolvedValue({
+    jest.spyOn(storage, 'createSignedUrlForUpload').mockResolvedValue({
       provider: 'AWS::S3',
       bucket: 'test',
       path: `${command.data.ownerId}/${command.data.filename}`,
+      signedUrl: 'test',
     });
     jest.spyOn(repository, 'findByOwnerAndFilename').mockResolvedValue(null);
     jest.spyOn(repository, 'create').mockResolvedValue();
-    await target.execute(command);
+    const result = await target.execute(command);
     expect(repository.findByOwnerAndFilename).toHaveBeenCalled();
-    expect(storage.uploadVideoForUser).toHaveBeenCalled();
+    expect(storage.createSignedUrlForUpload).toHaveBeenCalled();
     expect(repository.create).toHaveBeenCalled();
+    expect(result.data.signedUrlForUpload).toBeDefined();
   });
 
   it('should throw conflict if video already existscreate the new video', async () => {
     const aggregate = getAggregate();
     const command = getCommand(aggregate);
-    jest.spyOn(storage, 'uploadVideoForUser').mockResolvedValue({
+    jest.spyOn(storage, 'createSignedUrlForUpload').mockResolvedValue({
       provider: 'AWS::S3',
       bucket: 'test',
       path: `${command.data.ownerId}/${command.data.filename}`,
+      signedUrl: 'test',
     });
     jest
       .spyOn(repository, 'findByOwnerAndFilename')
@@ -104,7 +106,7 @@ describe('UploadVideoHandler', () => {
       ConflictException,
     );
     expect(repository.findByOwnerAndFilename).toHaveBeenCalled();
-    expect(storage.uploadVideoForUser).not.toHaveBeenCalled();
+    expect(storage.createSignedUrlForUpload).not.toHaveBeenCalled();
     expect(repository.create).not.toHaveBeenCalled();
   });
 });

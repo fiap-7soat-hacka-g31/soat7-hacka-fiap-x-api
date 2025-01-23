@@ -28,15 +28,13 @@ describe('StorageService', () => {
   });
 
   it('should upload video and return its metadata', async () => {
-    jest.spyOn(provider, 'uploadFile').mockResolvedValue({
+    jest.spyOn(provider, 'createSignedUrlForUpload').mockResolvedValue({
       provider: 'dummy',
       bucket: 'dummy',
-      path: 'dummy/file.mp4',
+      key: 'dummy/file.mp4',
+      signedUrl: 'dummy',
     });
-    const result = await target.uploadVideoForUser(
-      'userid/video.mp4',
-      Buffer.from('dummy'),
-    );
+    const result = await target.createSignedUrlForUpload('userid/video.mp4');
     expect(result.provider).toBeDefined();
     expect(result.bucket).toBeDefined();
     expect(result.path).toBeDefined();

@@ -10,7 +10,6 @@ import { SnapshotsProcessed } from '../src/video/application/dtos/snapshots-proc
 import { EVideoStatus } from '../src/video/domain/values/video-status.value';
 import { createTestApp } from './create-app';
 import { getBearerToken } from './utils/get-bearer-token';
-import { getVideoPath } from './utils/utils';
 
 describe('ProcessSnapshotsResult', () => {
   let app: INestApplication;
@@ -49,8 +48,11 @@ describe('ProcessSnapshotsResult', () => {
   it('should handle success result', async () => {
     const bearer = await getBearerToken(app);
     const uploadResponse = await request(server)
-      .post('/v1/videos/upload')
-      .attach('file', getVideoPath())
+      .post('/v1/me/videos')
+      .send({
+        filename: 'My Awesome Video',
+        snapshotIntervalInSeconds: 10,
+      })
       .set('Authorization', bearer);
     const { id } = uploadResponse.body;
     const amqp = app.get(AmqpService);
@@ -73,8 +75,11 @@ describe('ProcessSnapshotsResult', () => {
   it('should handle failed result', async () => {
     const bearer = await getBearerToken(app);
     const uploadResponse = await request(server)
-      .post('/v1/videos/upload')
-      .attach('file', getVideoPath())
+      .post('/v1/me/videos')
+      .send({
+        filename: 'My Awesome Video',
+        snapshotIntervalInSeconds: 10,
+      })
       .set('Authorization', bearer);
     const { id } = uploadResponse.body;
     const amqp = app.get(AmqpService);

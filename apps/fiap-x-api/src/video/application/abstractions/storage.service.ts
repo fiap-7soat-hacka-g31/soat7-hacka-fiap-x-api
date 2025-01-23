@@ -1,12 +1,12 @@
-export type UploadVideoResult = {
+export type CreateSignedUrlForUploadResult = {
   provider: string;
   bucket: string;
   path: string;
+  signedUrl: string;
 };
 
 export abstract class StorageService {
-  abstract uploadVideoForUser(
+  abstract createSignedUrlForUpload(
     path: string,
-    content: Buffer<ArrayBufferLike>,
-  ): Promise<UploadVideoResult>;
+  ): Promise<CreateSignedUrlForUploadResult>;
 }
