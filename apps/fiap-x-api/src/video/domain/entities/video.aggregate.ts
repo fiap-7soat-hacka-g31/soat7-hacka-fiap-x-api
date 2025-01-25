@@ -43,7 +43,9 @@ export class Video extends AggregateRoot {
   }
 
   create(provider: string, bucket: string, path: string) {
-    this.apply(new VideoUploaded(provider, bucket, path));
+    this.apply(
+      new VideoUploaded(provider, bucket, path, this.snapshotIntervalInSeconds),
+    );
   }
 
   onVideoUploaded(event: VideoUploaded) {
