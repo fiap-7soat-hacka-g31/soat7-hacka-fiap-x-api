@@ -1,7 +1,8 @@
 import { AggregateRoot } from '@fiap-x/tactical-design/core';
+import { ProcessingCompleted } from '../events/processing-completed.event';
 import { ProcessingFailed } from '../events/processing-failed.event';
 import { VideoUploaded } from '../events/video-uploaded.event';
-import { ZipAppended } from '../events/zip-uploaded.event';
+import { ZipAppended } from '../events/zip-appended.event';
 import { CloudFile } from '../values/cloud-file.value';
 import { VideoStatus } from '../values/video-status.value';
 
@@ -61,6 +62,14 @@ export class Video extends AggregateRoot {
     this._status = this._status.processed();
     this._zipFile = new CloudFile(event.provider, event.bucket, event.path);
   }
+
+  complete() {
+    this.apply(
+      new ProcessingCompleted(this._ownerId, this.filename, this.status),
+    );
+  }
+
+  onProcessingCompleted() {}
 
   reject(reason: string) {
     this.apply(new ProcessingFailed(reason));

@@ -24,6 +24,7 @@ export class ProcessSnapshotsResultHandler
     if (status === 'FAILED') {
       aggregate.reject(failReason);
     }
+    aggregate.complete();
 
     await this.repository.update(aggregate);
     await aggregate.commit();
