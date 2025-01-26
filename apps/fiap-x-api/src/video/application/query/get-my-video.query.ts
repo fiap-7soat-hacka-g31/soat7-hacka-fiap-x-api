@@ -1,9 +1,9 @@
-import { GetMyVideosInput, GetMyVideosOutput } from '../dtos/get-my-video.io';
+import { GetMyVideoInput, GetMyVideoOutput } from '../dtos/get-my-video.io';
 
 export class GetMyVideoQuery {
-  constructor(public readonly data: GetMyVideosInput) {}
+  constructor(public readonly data: GetMyVideoInput) {}
 }
 
 export class GetMyVideoResult {
-  constructor(public readonly data: GetMyVideosOutput) {}
+  constructor(public readonly data: GetMyVideoOutput) {}
 }

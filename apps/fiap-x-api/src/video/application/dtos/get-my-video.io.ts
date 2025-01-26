@@ -1,8 +1,8 @@
 import { MyVideo } from './my-video.dto';
 
-export class GetMyVideosInput {
+export class GetMyVideoInput {
   public readonly id: string;
   public readonly ownerId: string;
 }
 
-export class GetMyVideosOutput extends MyVideo {}
+export class GetMyVideoOutput extends MyVideo {}

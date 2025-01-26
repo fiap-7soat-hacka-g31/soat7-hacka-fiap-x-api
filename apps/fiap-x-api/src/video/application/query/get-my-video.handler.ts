@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { EVideoStatus } from '../../domain/values/video-status.value';
 import { MongooseVideoSchema } from '../../infra/persistence/mongoose/video.schema';
-import { GetMyVideosOutput } from '../dtos/get-my-video.io';
+import { GetMyVideoOutput } from '../dtos/get-my-video.io';
 import { GetMyVideoQuery, GetMyVideoResult } from './get-my-video.query';
 
 @QueryHandler(GetMyVideoQuery)
@@ -32,7 +32,7 @@ export class GetMyVideoHandler
 
     const hexId = result._id.toHexString();
     return new GetMyVideoResult(
-      new GetMyVideosOutput({
+      new GetMyVideoOutput({
         id: hexId,
         filename: result.filename,
         snapshotIntervalInSeconds: result.snapshotIntervalInSeconds,
