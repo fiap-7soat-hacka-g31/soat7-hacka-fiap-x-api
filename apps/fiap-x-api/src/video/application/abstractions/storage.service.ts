@@ -9,4 +9,6 @@ export abstract class StorageService {
   abstract createSignedUrlForUpload(
     path: string,
   ): Promise<CreateSignedUrlForUploadResult>;
+
+  abstract createSignedUrlForDownload(path: string): Promise<string>;
 }

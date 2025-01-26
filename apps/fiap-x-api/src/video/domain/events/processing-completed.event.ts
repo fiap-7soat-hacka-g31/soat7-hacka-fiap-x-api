@@ -6,6 +6,7 @@ export class ProcessingCompleted extends DomainEvent {
     public readonly ownerId: string,
     public readonly filename: string,
     public readonly status: VideoStatusValues,
+    public readonly downloadSignedUrl: string,
   ) {
     super();
   }

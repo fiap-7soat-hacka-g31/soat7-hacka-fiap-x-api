@@ -37,10 +37,10 @@ export class GetMyVideoHandler
         filename: result.filename,
         snapshotIntervalInSeconds: result.snapshotIntervalInSeconds,
         status: result.status,
-        videoPath: `/videos/${hexId}?target=video`,
+        videoPath: `/me/videos/${hexId}/download?target=video`,
         zipPath:
           result.status === EVideoStatus.Processed
-            ? `/videos/${hexId}?target=zip`
+            ? `/me/videos/${hexId}/download?target=zip`
             : null,
         createdAt: result.createdAt,
         updatedAt: result.updatedAt,
