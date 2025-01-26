@@ -12,6 +12,8 @@ import {
   EVideoStatus,
   VideoStatus,
 } from '../../domain/values/video-status.value';
+import { AwsS3VideoStorageService } from '../../infra/adapters/storage/aws-s3/aws-s3-storage.service';
+import { StorageService } from '../abstractions/storage.service';
 import { VideoRepository } from '../abstractions/video.repository';
 import { ProcessSnapshotsResultCommand } from './process-snapshots-result.command';
 import { ProcessSnapshotsResultHandler } from './process-snapshots-result.handler';
@@ -36,11 +38,19 @@ describe('ProcessSnapshotsResultHandler', () => {
           provide: VideoRepository,
           useClass: FakeRepository,
         },
+        {
+          provide: StorageService,
+          useValue: Object.create(AwsS3VideoStorageService.prototype),
+        },
       ],
     }).compile();
 
     target = moduleFixture.get(ProcessSnapshotsResultHandler);
     repository = moduleFixture.get(VideoRepository);
+    const storage = moduleFixture.get(StorageService);
+    storage.createSignedUrlForDownload = jest
+      .fn()
+      .mockResolvedValue('dummy-signed-url');
   });
 
   const getAggregate = () =>

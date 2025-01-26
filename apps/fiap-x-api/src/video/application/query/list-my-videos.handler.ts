@@ -21,6 +21,7 @@ export class ListMyVideosHandler
       .find({
         ownerId: new Types.ObjectId(ownerId),
       })
+      .sort({ createdAt: 'descending' })
       .exec();
 
     if (!result?.length) {
@@ -35,8 +36,8 @@ export class ListMyVideosHandler
           filename: x.filename,
           snapshotIntervalInSeconds: x.snapshotIntervalInSeconds,
           status: x.status,
-          videoPath: `/videos/${hexId}?target=video`,
-          zipPath: `/videos/${hexId}?target=zip`,
+          videoPath: `/me/videos/${hexId}/download?target=video`,
+          zipPath: `/me/videos/${hexId}/download?target=zip`,
           createdAt: x.createdAt,
           updatedAt: x.updatedAt,
         });

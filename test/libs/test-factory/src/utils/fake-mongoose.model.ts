@@ -11,4 +11,7 @@ export class FakeMongooseModel<T = any> {
   find() {
     return this;
   }
+  sort() {
+    return this;
+  }
 }

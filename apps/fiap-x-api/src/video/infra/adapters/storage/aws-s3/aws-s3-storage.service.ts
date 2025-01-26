@@ -13,6 +13,12 @@ export class AwsS3VideoStorageService implements StorageService {
     private readonly config: ConfigService,
   ) {}
 
+  async createSignedUrlForDownload(path: string): Promise<string> {
+    const bucket = this.config.get('AWS_S3_BUCKET_NAME');
+    const result = await this.client.createSignedUrlForDownload(bucket, path);
+    return result.signedUrl;
+  }
+
   async createSignedUrlForUpload(
     path: string,
   ): Promise<CreateSignedUrlForUploadResult> {

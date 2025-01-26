@@ -47,8 +47,8 @@ describe('ListMyVideos', () => {
     expect(actual.id).toBe(hexId);
     expect(actual.filename).toBe(schema.filename);
     expect(actual.status).toBe(schema.status);
-    expect(actual.videoPath).toBe(`/videos/${hexId}?target=video`);
-    expect(actual.zipPath).toBe(`/videos/${hexId}?target=zip`);
+    expect(actual.videoPath).toBe(`/me/videos/${hexId}/download?target=video`);
+    expect(actual.zipPath).toBe(`/me/videos/${hexId}/download?target=zip`);
     expect(actual.snapshotIntervalInSeconds).toBe(
       schema.snapshotIntervalInSeconds,
     );
