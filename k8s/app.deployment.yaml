@@ -42,7 +42,11 @@ spec:
             - name: TRAFFIC_INSPECTION_AMQP
               value: "all" # inbound|outbound|all|none
             - name: ROUTE_PREFIX
-              value: "dev/fiap-x-api"
+              value: "dev/api"
+            - name: AWS_S3_BUCKET_NAME
+              value: "fiap7soat-f5-hacka"
+            - name: BASE_URL_IDENTITY_SERVICE
+              value: "http://fiap-x-identity-lb-srv:3000/dev/identity"
           ports:
             - name: http
               containerPort: 3000
@@ -58,13 +62,13 @@ spec:
             failureThreshold: 3
             periodSeconds: 15
             httpGet:
-              path: /dev/fiap-x-api/healthz
+              path: /dev/api/healthz
               port: 3000
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 10
             httpGet:
-              path: /dev/fiap-x-api/healthz/self
+              path: /dev/api/healthz/self
               port: 3000
 ---
 apiVersion: autoscaling/v2
