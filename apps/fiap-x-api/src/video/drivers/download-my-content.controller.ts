@@ -6,7 +6,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DownloadMyContentOutput } from '../application/dtos/download-my-content.io';
 import { DownloadMyContentQuery } from '../application/query/download-my-content.query';
 
-@ApiTags('Videos')
+@ApiTags('Video')
 @WithAuthentication()
 @Controller({ version: '1', path: 'me/videos/:id/download' })
 export class DownloadMyContentController {
