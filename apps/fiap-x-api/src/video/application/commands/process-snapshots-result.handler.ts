@@ -22,16 +22,16 @@ export class ProcessSnapshotsResultHandler
     if (!aggregate) {
       throw new NotFoundException();
     }
-    let signedUrl: string = null;
+    let downloadSignedUrl: string = null;
     if (status === 'SUCCESS') {
       aggregate.appendZip(provider, bucket, path);
-      signedUrl = await this.storage.createSignedUrlForDownload(path);
+      downloadSignedUrl = await this.storage.createSignedUrlForDownload(path);
     }
     if (status === 'FAILED') {
       aggregate.reject(failReason);
     }
 
-    aggregate.complete(signedUrl);
+    aggregate.complete({ downloadSignedUrl, failReason });
 
     await this.repository.update(aggregate);
     await aggregate.commit();
