@@ -63,13 +63,20 @@ export class Video extends AggregateRoot {
     this._zipFile = new CloudFile(event.provider, event.bucket, event.path);
   }
 
-  complete(downloadSignedUrl?: string) {
+  complete({
+    downloadSignedUrl,
+    failReason,
+  }: {
+    downloadSignedUrl?: string;
+    failReason?: string;
+  }) {
     this.apply(
       new ProcessingCompleted(
         this._ownerId,
         this.filename,
         this.status,
         downloadSignedUrl,
+        failReason,
       ),
     );
   }
